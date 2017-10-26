@@ -1,0 +1,1 @@
+include ':app', ':log_tool', ':crash-tool', ':leakcanary-tool'
