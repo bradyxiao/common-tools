@@ -1,1 +1,1 @@
-include ':app', ':log_tool', ':crash-tool', ':leakcanary-tool'
+include ':app', ':log_tool', ':crash_tool', ':leakcanary_tool', ':network_tool'

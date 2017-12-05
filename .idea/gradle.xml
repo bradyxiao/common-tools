@@ -4,7 +4,17 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/crash_tool" />
+            <option value="$PROJECT_DIR$/leakcanary_tool" />
+            <option value="$PROJECT_DIR$/log_tool" />
+            <option value="$PROJECT_DIR$/network_tool" />
+          </set>
+        </option>
         <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>

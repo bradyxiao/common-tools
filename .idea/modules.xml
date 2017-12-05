@@ -4,9 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/commonLibs.iml" filepath="$PROJECT_DIR$/commonLibs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/crash-tool/crash-tool.iml" filepath="$PROJECT_DIR$/crash-tool/crash-tool.iml" />
-      <module fileurl="file://$PROJECT_DIR$/leakcanary-tool/leakcanary-tool.iml" filepath="$PROJECT_DIR$/leakcanary-tool/leakcanary-tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crash_tool/crash_tool.iml" filepath="$PROJECT_DIR$/crash_tool/crash_tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/leakcanary_tool/leakcanary_tool.iml" filepath="$PROJECT_DIR$/leakcanary_tool/leakcanary_tool.iml" />
       <module fileurl="file://$PROJECT_DIR$/log_tool/log_tool.iml" filepath="$PROJECT_DIR$/log_tool/log_tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/network_tool/network_tool.iml" filepath="$PROJECT_DIR$/network_tool/network_tool.iml" />
     </modules>
   </component>
 </project>
