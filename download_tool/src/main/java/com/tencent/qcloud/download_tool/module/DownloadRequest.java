@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import com.tencent.qcloud.download_tool.exception.ClientException;
 import com.tencent.qcloud.download_tool.listener.OnProgressListener;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -23,6 +23,8 @@ public class DownloadRequest {
     private List<String> requestHeader;
 
     private OnProgressListener onProgressListener;
+
+    private Range range;
 
     public DownloadRequest(String downloadUrl, String localDirPath, String localFileName){
         this.downloadUrl = downloadUrl;
@@ -50,8 +52,24 @@ public class DownloadRequest {
         }
     }
 
+    public void setRange(long start, long end){
+        if(end <= 0) end = -1L;
+        if(start < 0) start = 0L;
+        range = new Range(start, end);
+        requestHeader.add("Range");
+        requestHeader.add(range.toString());
+    }
+
+    public void setRange(long start){
+        setRange(start, -1);
+    }
+
     public List<String> getRequestHeader() {
         return requestHeader;
+    }
+
+    public Range getRange() {
+        return range;
     }
 
     public void setOnProgressListener(OnProgressListener onProgressListener){
@@ -70,6 +88,24 @@ public class DownloadRequest {
             throw new ClientException("localDirPath[" + localDirPath + "]  or localFileName[" +
                     localFileName + "] invalid" );
         }
+    }
+
+    public String getLocalSavePath() throws ClientException{
+        File file = new File(localDirPath);
+        if(!file.exists()){
+            boolean canMkdir = file.mkdirs();
+            if(!canMkdir){
+                throw new ClientException("can not create directory[" + localDirPath + "]");
+            }
+        }
+        if(!localDirPath.endsWith(File.separator)){
+            localDirPath = localFileName + File.separator;
+        }
+        if(localFileName.startsWith(File.separator)){
+            localFileName = localFileName.substring(1);
+        }
+        String localSavePath = localDirPath + localFileName;
+        return localSavePath;
     }
 
 }

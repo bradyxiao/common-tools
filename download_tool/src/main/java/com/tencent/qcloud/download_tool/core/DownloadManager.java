@@ -8,6 +8,12 @@ import com.tencent.qcloud.download_tool.listener.OnDownloadListener;
 import com.tencent.qcloud.download_tool.module.DownloadRequest;
 import com.tencent.qcloud.download_tool.module.DownloadResult;
 
+import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
 import okhttp3.OkHttpClient;
 
 /**
@@ -22,7 +28,22 @@ public class DownloadManager {
 
     private DownloadManager(Builder builder){
         this.config = builder.config;
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder()
+                .followRedirects(true)
+                .followSslRedirects(true)
+                .connectTimeout(config.connectTimeout, TimeUnit.MILLISECONDS)
+                .readTimeout(config.socketTimeout, TimeUnit.MILLISECONDS)
+                .hostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        boolean isVerified = HttpsURLConnection.getDefaultHostnameVerifier().verify(hostname, session);
+                        if(!isVerified && hostname.endsWith(config.hostnameVerifier)) {
+                            isVerified = true;
+                        }
+                        return isVerified;
+                    }
+                });
+
         okHttpClient = okhttpClientBuilder.build();
         if(config.isMultiThreadDownload){
             downloadTask = new MultiThreadDownloadTask(okHttpClient);

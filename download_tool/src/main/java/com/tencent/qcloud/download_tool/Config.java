@@ -13,4 +13,10 @@ public class Config {
     public int maxThreadNums = Utils.getCoreNums();
 
     public int retryNums = 3;
+
+    public long connectTimeout = 45000;
+
+    public long socketTimeout = 30000;
+
+    public String hostnameVerifier ="*.myqcloud.com";
 }
