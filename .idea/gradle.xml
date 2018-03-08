@@ -8,11 +8,17 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/PlayerApp" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/crash_tool" />
+            <option value="$PROJECT_DIR$/download_tool" />
+            <option value="$PROJECT_DIR$/gradle_task" />
             <option value="$PROJECT_DIR$/leakcanary_tool" />
             <option value="$PROJECT_DIR$/log_tool" />
             <option value="$PROJECT_DIR$/network_tool" />
+            <option value="$PROJECT_DIR$/player_component" />
+            <option value="$PROJECT_DIR$/service_component" />
+            <option value="$PROJECT_DIR$/threadpool_utils" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

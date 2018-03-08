@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tencent.qcloud.audioapp.MainActivity">
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:gravity="center"
+        android:id="@+id/play"
+        />
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pause"
+        android:gravity="center"
+        android:id="@+id/pause"
+        />
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:gravity="center"
+        android:id="@+id/stop"
+        />
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:gravity="center"
+        android:id="@+id/reset"
+        />
+
+    <!--<VideoView-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:id="@+id/videoView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <SurfaceView
+        android:layout_margin="10dp"
+        android:layout_width="100dp"
+        android:layout_height="1000dp"
+        android:layout_gravity="center"
+        android:id="@+id/surfaceView"/>
+
+</LinearLayout>
