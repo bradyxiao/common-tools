@@ -19,7 +19,6 @@ public class Utils {
         if(closeable != null){
             try {
                 closeable.close();
-                closeable = null;
             } catch (IOException e) {
                 throw new ClientException(e);
             }

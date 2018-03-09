@@ -5,10 +5,6 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
-
 /**
  * Created by bradyxiao on 2018/3/8.
  */
@@ -27,15 +23,15 @@ public class RetryHandler{
     public static boolean retryRequest(int currentRetryCount, int maxRetryCount,Exception e){
         boolean isRetry = true;
         if(currentRetryCount > maxRetryCount)return false;
-//        if( e instanceof SocketTimeoutException || e instanceof SocketException || e instanceof UnknownHostException){
-//            isRetry = true;
-//        }
-//        if(isRetry){
-//            try {
-//                Thread.sleep(500);
-//            } catch (Exception e1) {
-//            }
-//        }
+        if( e instanceof SocketTimeoutException || e instanceof SocketException || e instanceof UnknownHostException){
+            isRetry = true;
+        }
+        if(isRetry){
+            try {
+                Thread.sleep(500);
+            } catch (Exception e1) {
+            }
+        }
         return isRetry;
     }
 }

@@ -38,7 +38,7 @@ public class SingleThreadDownloadTask extends DownloadTask{
             return downloadResult;
         } catch (Exception e) {
             boolean isRetry = RetryHandler.retryRequest(currentRetryNum + 1 ,maxRetryNums,e);
-            if(isRetry){
+            if(isRetry && !call.isCanceled()){
                 listenerHandler.onRetry(currentRetryNum + 1);
                 currentRetryNum = currentRetryNum + 1;
                 return syncDownload();
@@ -87,7 +87,7 @@ public class SingleThreadDownloadTask extends DownloadTask{
                         listenerHandler.onSuccess(downloadRequest, downloadResult);
                     }catch (Exception e){
                         boolean isRetry = RetryHandler.retryRequest(currentRetryNum + 1 ,maxRetryNums,e);
-                        if(isRetry){
+                        if(isRetry && !call.isCanceled()){
                             listenerHandler.onRetry(currentRetryNum + 1);
                             currentRetryNum = currentRetryNum + 1;
                             asyncDownload();
