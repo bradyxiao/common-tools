@@ -8,15 +8,17 @@ import com.tencent.qcloud.download_tool.util.Utils;
 
 public class Config {
 
-    public boolean isMultiThreadDownload = false;
-
-    public int maxThreadNums = Utils.getCoreNums();
-
-    public int retryNums = 3;
-
     public long connectTimeout = 45000;
 
     public long socketTimeout = 30000;
 
     public String hostnameVerifier ="*.myqcloud.com";
+
+    public boolean isMultiThreadDownload = false;
+
+    public int maxThreadNums = Utils.getCoreNum();
+
+    public int retryNums = 3;
+
+    public boolean debug = false;
 }

@@ -27,7 +27,6 @@ public class Downloader {
     }
 
     public DownloadResult download(DownloadRequest downloadRequest) throws ClientException, ServerException{
-
         return downloadManager.download(downloadRequest);
     }
 

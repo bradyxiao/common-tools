@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.tencent.qcloud.download_tool.log.LogcatImpl;
+import com.tencent.qcloud.download_tool.log.QLogger;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,5 +25,7 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.tencent.qcloud.download_tool.test", appContext.getPackageName());
+        QLogger.initLogImpl(new LogcatImpl());
+        QLogger.i("num =%d; string =%s",2, "test");
     }
 }
