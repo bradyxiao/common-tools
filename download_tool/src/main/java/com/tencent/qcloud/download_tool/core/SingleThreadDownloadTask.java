@@ -68,7 +68,14 @@ public class SingleThreadDownloadTask extends DownloadTask{
                     if(call.isCanceled()){
                         listenerHandler.onFailed(downloadRequest, null, new ServerException("Canceled"));
                     }else {
-                        listenerHandler.onFailed(downloadRequest, null, new ServerException(e));
+                        boolean isRetry = RetryHandler.retryRequest(currentRetryNum + 1 ,maxRetryNums,e);
+                        if(isRetry){
+                            listenerHandler.onRetry(currentRetryNum + 1);
+                            currentRetryNum = currentRetryNum + 1;
+                            asyncDownload();
+                        }else {
+                            listenerHandler.onFailed(downloadRequest, null, new ServerException(e));
+                        }
                     }
                 }
 
