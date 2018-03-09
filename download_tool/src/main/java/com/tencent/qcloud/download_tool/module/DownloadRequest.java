@@ -8,12 +8,17 @@ import com.tencent.qcloud.download_tool.listener.OnProgressListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by bradyxiao on 2018/3/8.
  */
 
 public class DownloadRequest {
+
+
+    private int taskId;
 
     private String downloadUrl;
 
@@ -31,6 +36,11 @@ public class DownloadRequest {
         this.localDirPath = localDirPath;
         this.localFileName = localFileName;
         requestHeader = new ArrayList<>();
+        taskId = UUID.randomUUID().hashCode();
+    }
+
+    public int getTaskId(){
+        return taskId;
     }
 
     public String getDownloadUrl() {
@@ -99,7 +109,7 @@ public class DownloadRequest {
             }
         }
         if(!localDirPath.endsWith(File.separator)){
-            localDirPath = localFileName + File.separator;
+            localDirPath = localDirPath + File.separator;
         }
         if(localFileName.startsWith(File.separator)){
             localFileName = localFileName.substring(1);

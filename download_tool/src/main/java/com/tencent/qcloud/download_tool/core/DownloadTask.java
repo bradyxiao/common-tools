@@ -1,11 +1,13 @@
 package com.tencent.qcloud.download_tool.core;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.tencent.qcloud.download_tool.exception.ClientException;
 import com.tencent.qcloud.download_tool.exception.ServerException;
 import com.tencent.qcloud.download_tool.listener.OnDownloadListener;
 import com.tencent.qcloud.download_tool.listener.OnProgressListener;
+import com.tencent.qcloud.download_tool.listener.OnTaskStateListener;
 import com.tencent.qcloud.download_tool.module.DownloadRequest;
 import com.tencent.qcloud.download_tool.module.DownloadResult;
 import com.tencent.qcloud.download_tool.util.Utils;
@@ -17,6 +19,7 @@ import java.io.RandomAccessFile;
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -51,6 +54,10 @@ public abstract class DownloadTask {
         listenerHandler.setOnDownloadListener(onDownloadListener);
     }
 
+    public void setOnTaskStateListener(OnTaskStateListener onTaskStateListener){
+        this.listenerHandler.setOnTaskStateListener(onTaskStateListener);
+    }
+
     public abstract DownloadResult syncDownload() throws ClientException, ServerException;
     public abstract void asyncDownload();
 
@@ -62,7 +69,7 @@ public abstract class DownloadTask {
                 .get();
         List<String> headers = downloadRequest.getRequestHeader();
         int size = headers.size();
-        for(int i = 0; i < size -2; i += 2){
+        for(int i = 0; i <= size -2; i += 2){
             requestBuilder.addHeader(headers.get(i), headers.get(i + 1));
         }
         request = requestBuilder.build();
@@ -101,7 +108,11 @@ public abstract class DownloadTask {
             } catch (FileNotFoundException e) {
                 throw new ClientException(e);
             } catch (IOException e) {
-                throw new ServerException(e);
+                if(call.isCanceled()){
+                    throw new ServerException("Canceled");
+                }else {
+                    throw new ServerException(e);
+                }
             }finally {
                 Utils.close(randomAccessFile);
                 Utils.close(inputStream);
@@ -109,16 +120,19 @@ public abstract class DownloadTask {
         }
     }
 
-    public void cancel(){
-        if(call != null){
+    public boolean cancel(){
+        if(call != null && !call.isCanceled()){
             call.cancel();
+            return true;
         }
+        return false;
     }
-
-    protected static class ListenerHandler implements OnDownloadListener, OnProgressListener{
+    
+    protected static class ListenerHandler implements OnDownloadListener, OnProgressListener, OnTaskStateListener{
 
         private OnProgressListener onProgressListener;
         private OnDownloadListener onDownloadListener;
+        private OnTaskStateListener onTaskStateListener;
 
         public ListenerHandler(){
         }
@@ -129,6 +143,10 @@ public abstract class DownloadTask {
 
         public void setOnDownloadListener(OnDownloadListener onDownloadListener){
             this.onDownloadListener = onDownloadListener;
+        }
+
+        public void setOnTaskStateListener(OnTaskStateListener onTaskStateListener){
+            this.onTaskStateListener = onTaskStateListener;
         }
 
         @Override
@@ -149,6 +167,27 @@ public abstract class DownloadTask {
         public void onProgress(long receivedLength, long totalLength) {
             if(onProgressListener != null){
                 onProgressListener.onProgress(receivedLength, totalLength);
+            }
+        }
+
+        @Override
+        public void onWaiting() {
+            if(onTaskStateListener != null){
+                onTaskStateListener.onWaiting();
+            }
+        }
+
+        @Override
+        public void onRunning() {
+            if(onTaskStateListener != null){
+                onTaskStateListener.onRunning();
+            }
+        }
+
+        @Override
+        public void onCompleted() {
+            if(onTaskStateListener != null){
+                onTaskStateListener.onCompleted();
             }
         }
     }

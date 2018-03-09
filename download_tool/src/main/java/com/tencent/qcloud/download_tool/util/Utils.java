@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Utils {
 
     public static int getCoreNums(){
-        return 1;
+        return 3;
     }
 
     public static void close(Closeable closeable) throws ClientException {

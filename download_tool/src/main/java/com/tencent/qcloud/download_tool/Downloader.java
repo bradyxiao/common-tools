@@ -13,7 +13,7 @@ import com.tencent.qcloud.download_tool.module.DownloadResult;
 
 public class Downloader {
 
-    DownloadManager downloadManager;
+    private DownloadManager downloadManager;
 
     public Downloader(Config config){
 
@@ -27,7 +27,11 @@ public class Downloader {
         return downloadManager.download(downloadRequest);
     }
 
-    public void Download(DownloadRequest downloadRequest, OnDownloadListener onDownloadListener){
-        downloadManager.Download(downloadRequest, onDownloadListener);
+    public void download(DownloadRequest downloadRequest, OnDownloadListener onDownloadListener){
+        downloadManager.download(downloadRequest, onDownloadListener);
+    }
+
+    public void cancel(DownloadRequest downloadRequest){
+        downloadManager.cancel(downloadRequest);
     }
 }

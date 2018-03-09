@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/common-tools.iml" filepath="$PROJECT_DIR$/common-tools.iml" />
+      <module fileurl="file://E:\TencentWork\train\commonLibs\common-tools.iml" filepath="E:\TencentWork\train\commonLibs\common-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commonLibs.iml" filepath="$PROJECT_DIR$/commonLibs.iml" />
       <module fileurl="file://$PROJECT_DIR$/download_tool/download_tool.iml" filepath="$PROJECT_DIR$/download_tool/download_tool.iml" />
     </modules>
   </component>
