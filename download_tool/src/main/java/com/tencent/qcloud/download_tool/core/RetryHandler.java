@@ -25,17 +25,17 @@ public class RetryHandler{
      * @return (true : need to retry again or false: no)
      */
     public static boolean retryRequest(int currentRetryCount, int maxRetryCount,Exception e){
-        boolean isRetry = false;
+        boolean isRetry = true;
         if(currentRetryCount > maxRetryCount)return false;
-        if( e instanceof SocketTimeoutException || e instanceof SocketException || e instanceof UnknownHostException){
-            isRetry = true;
-        }
-        if(isRetry){
-            try {
-                Thread.sleep(500);
-            } catch (Exception e1) {
-            }
-        }
+//        if( e instanceof SocketTimeoutException || e instanceof SocketException || e instanceof UnknownHostException){
+//            isRetry = true;
+//        }
+//        if(isRetry){
+//            try {
+//                Thread.sleep(500);
+//            } catch (Exception e1) {
+//            }
+//        }
         return isRetry;
     }
 }
