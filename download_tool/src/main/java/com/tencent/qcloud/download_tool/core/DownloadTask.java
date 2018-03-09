@@ -39,6 +39,8 @@ public abstract class DownloadTask {
     volatile protected Call call;
     protected DownloadRequest downloadRequest;
     protected ListenerHandler listenerHandler;
+    protected int maxRetryNums = 3;
+    protected int currentRetryNum = 0;
 
     public DownloadTask(OkHttpClient okHttpClient){
         this.okHttpClient = okHttpClient;
@@ -127,7 +129,7 @@ public abstract class DownloadTask {
         }
         return false;
     }
-    
+
     protected static class ListenerHandler implements OnDownloadListener, OnProgressListener, OnTaskStateListener{
 
         private OnProgressListener onProgressListener;
@@ -181,6 +183,13 @@ public abstract class DownloadTask {
         public void onRunning() {
             if(onTaskStateListener != null){
                 onTaskStateListener.onRunning();
+            }
+        }
+
+        @Override
+        public void onRetry(int count) {
+            if(onTaskStateListener != null){
+                onTaskStateListener.onRetry(count);
             }
         }
 

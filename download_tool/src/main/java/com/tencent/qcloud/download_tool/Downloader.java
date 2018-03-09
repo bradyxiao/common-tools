@@ -22,6 +22,10 @@ public class Downloader {
         downloadManager = builder.build();
     }
 
+    public Downloader(){
+        this(new Config());
+    }
+
     public DownloadResult download(DownloadRequest downloadRequest) throws ClientException, ServerException{
 
         return downloadManager.download(downloadRequest);

@@ -8,5 +8,6 @@ public interface OnTaskStateListener {
 
     void onWaiting();
     void onRunning();
+    void onRetry(int count);
     void onCompleted();
 }

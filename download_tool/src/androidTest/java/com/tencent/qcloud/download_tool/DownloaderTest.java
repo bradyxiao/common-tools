@@ -30,7 +30,7 @@ public class DownloaderTest {
     @Test
     public void testDownload() throws Exception{
         Context appContext = InstrumentationRegistry.getContext();
-        String url = "http://androidtest-1253653367.cosgz.myqcloud.com/upload_service5.txt";
+        String url = "https://androidtest-1253653367.cosgz.myqcloud.com/upload_service5.txt";
         String localDir = appContext.getExternalCacheDir().getPath();
         String localFile = "download.txt";
         final DownloadRequest downloadRequest = new DownloadRequest(url, localDir, localFile);
@@ -46,17 +46,17 @@ public class DownloaderTest {
         });
         final Downloader downloader = new Downloader(new Config());
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                downloader.cancel(downloadRequest);
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(400);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                downloader.cancel(downloadRequest);
+//            }
+//        }).start();
         DownloadResult downloadResult = downloader.download(downloadRequest);
 
         File file = new File(downloadRequest.getLocalSavePath());
@@ -67,7 +67,7 @@ public class DownloaderTest {
     @Test
     public void testAsyncDownload() throws Exception{
         Context appContext = InstrumentationRegistry.getContext();
-        String url = "http://androidtest-1253653367.cosgz.myqcloud.com/upload_service5.txt";
+        String url = "https://androidtest-1253653367.cosgz.myqcloud.com/upload_service5.txt";
         String localDir = appContext.getExternalCacheDir().getPath();
         String localFile = "download.txt";
         final DownloadRequest downloadRequest = new DownloadRequest(url, localDir, localFile);
@@ -81,7 +81,7 @@ public class DownloaderTest {
                         + "%");
             }
         });
-        final Downloader downloader = new Downloader(new Config());
+        final Downloader downloader = new Downloader();
 
         downloader.download(downloadRequest, new OnDownloadListener() {
             @Override

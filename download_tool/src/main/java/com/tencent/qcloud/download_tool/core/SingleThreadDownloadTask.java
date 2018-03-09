@@ -37,6 +37,12 @@ public class SingleThreadDownloadTask extends DownloadTask{
             listenerHandler.onCompleted();
             return downloadResult;
         } catch (Exception e) {
+            boolean isRetry = RetryHandler.retryRequest(currentRetryNum + 1 ,maxRetryNums,e);
+            if(isRetry){
+                listenerHandler.onRetry(currentRetryNum + 1);
+                currentRetryNum = currentRetryNum + 1;
+                return syncDownload();
+            }
             listenerHandler.onCompleted();
             if(e instanceof ClientException){
                 throw (ClientException)e;
@@ -73,14 +79,22 @@ public class SingleThreadDownloadTask extends DownloadTask{
                         listenerHandler.onCompleted();
                         listenerHandler.onSuccess(downloadRequest, downloadResult);
                     }catch (Exception e){
-                        if(call.isCanceled()){
-                            listenerHandler.onFailed(downloadRequest, null, new ServerException("Canceled"));
-                        }else if( e instanceof ClientException){
-                            listenerHandler.onFailed(downloadRequest, (ClientException) e, null);
-                        }else if( e instanceof ServerException){
-                            listenerHandler.onFailed(downloadRequest, null, (ServerException) e);
+                        boolean isRetry = RetryHandler.retryRequest(currentRetryNum + 1 ,maxRetryNums,e);
+                        if(isRetry){
+                            listenerHandler.onRetry(currentRetryNum + 1);
+                            currentRetryNum = currentRetryNum + 1;
+                            asyncDownload();
                         }else {
-                            listenerHandler.onFailed(downloadRequest, null, new ServerException(e));
+                            listenerHandler.onCompleted();
+                            if(call.isCanceled()){
+                                listenerHandler.onFailed(downloadRequest, null, new ServerException("Canceled"));
+                            }else if( e instanceof ClientException){
+                                listenerHandler.onFailed(downloadRequest, (ClientException) e, null);
+                            }else if( e instanceof ServerException){
+                                listenerHandler.onFailed(downloadRequest, null, (ServerException) e);
+                            }else {
+                                listenerHandler.onFailed(downloadRequest, null, new ServerException(e));
+                            }
                         }
                     }
                 }

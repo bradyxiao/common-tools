@@ -132,6 +132,11 @@ public class DownloadManager {
         }
 
         @Override
+        public void onRetry(int count) {
+                Log.d(TAG, "task[" + taskId + "] on retry [" + count + "]" );
+        }
+
+        @Override
         public void onCompleted() {
             Log.d(TAG, "task[" + taskId + "] on completed" );
             if(downloadTaskMap.containsKey(taskId)){
