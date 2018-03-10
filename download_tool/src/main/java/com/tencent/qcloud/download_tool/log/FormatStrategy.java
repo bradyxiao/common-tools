@@ -21,7 +21,7 @@ public class LogFormatStrategy {
     private final int showMethodCount;
     private final int showMethodOffset;
     private final boolean showThreadInfo;
-    private final QLog logImpl;
+    private final QLogAdapter logImpl;
     private final String tag;
 
     private LogFormatStrategy(Builder builder){
@@ -30,6 +30,10 @@ public class LogFormatStrategy {
         this.showThreadInfo = builder.showThreadInfo;
         this.logImpl = builder.logImpl;
         this.tag = builder.tag;
+    }
+
+    public void log(int level, String tag, String message){
+
     }
 
 
@@ -113,7 +117,7 @@ public class LogFormatStrategy {
         int showMethodCount = 2;
         int showMethodOffset = 0;
         boolean showThreadInfo = true;
-        QLog logImpl = new LogcatImpl();
+        QLogAdapter logImpl = new LogcatImpl();
         String tag = "QLogger";
 
         public Builder(){}
@@ -133,7 +137,7 @@ public class LogFormatStrategy {
             return this;
         }
 
-        public Builder setLogImpl(QLog logImpl){
+        public Builder setLogImpl(QLogAdapter logImpl){
             if(logImpl != null){
                 this.logImpl = logImpl;
             }

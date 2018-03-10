@@ -21,7 +21,7 @@ import javax.xml.transform.stream.StreamSource;
  * Created by bradyxiao on 2018/3/9.
  */
 
-public class LogRecoder implements Recoder {
+public class Recoder {
 
     private static final int JSON_INDENT_SPACES = 2;
     private static final String XML_INDENT_SPACES = "2";
