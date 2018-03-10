@@ -88,7 +88,7 @@ public abstract class DownloadTask {
                 throw new ServerException(e);
             }
         }else{
-            long start = 0L;
+            long start = downloadRequest.getRange().getStart();
             long hasReceivedLength = start;
             long contentLength = response.body().contentLength();
             InputStream inputStream = response.body().byteStream();
