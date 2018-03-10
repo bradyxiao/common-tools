@@ -25,7 +25,7 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.tencent.qcloud.download_tool.test", appContext.getPackageName());
-        QLogger.initLogImpl(new LogcatImpl());
+        QLogger.setLogFormat(null);
         QLogger.i("num =%d; string =%s",2, "test");
     }
 }

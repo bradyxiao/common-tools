@@ -4,7 +4,7 @@ package com.tencent.qcloud.download_tool.log;
  * Created by bradyxiao on 2018/3/9.
  */
 
-public abstract class QLog {
+public abstract class QLogAdapter {
     /**
      * Priority constant for the println method; use Log.v.
      */
@@ -31,7 +31,7 @@ public abstract class QLog {
     public static final int ERROR = 6;
 
     protected String defaultTag = "QLogger";
-    protected int defaultLeve = DEBUG;
+    protected int defaultLevel = DEBUG;
 
     public abstract void log(int level, String tag, String message);
 
@@ -42,10 +42,10 @@ public abstract class QLog {
             case DEBUG:
             case WARN:
             case ERROR:
-                defaultLeve = level;
+                defaultLevel = level;
                 break;
             default:
-                    defaultLeve = DEBUG;
+                    defaultLevel = DEBUG;
         }
     }
 

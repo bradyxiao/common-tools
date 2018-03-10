@@ -21,12 +21,12 @@ import javax.xml.transform.stream.StreamSource;
  * Created by bradyxiao on 2018/3/9.
  */
 
-public class Recoder {
+public class Recorder {
 
     private static final int JSON_INDENT_SPACES = 2;
     private static final String XML_INDENT_SPACES = "2";
     private final ThreadLocal<String> threadLocalTag = new ThreadLocal<>();
-    private QLog logImpl;
+    private FormatStrategy logFormatStrategy = new FormatStrategy.Builder().build();
 
     /**
      * This method is synchronized in order to avoid messy of logs' order.
@@ -40,55 +40,57 @@ public class Recoder {
         if(throwable != null && message != null){
             message += " : " + Utils.getStackTraceString(throwable);
         }
-        if(throwable != null && msg == null){
+        if(throwable != null && message == null){
             message = Utils.getStackTraceString(throwable);
         }
         if(Utils.isEmpty(message)){
             message = "Empty/NULL log message";
         }
-        logImpl.log(level, tag, message);
+        logFormatStrategy.log(level, tag, message);
     }
 
     private String getTag(){
         return null;
     }
 
-    @Override
-    public void setLogImpl(QLog logImpl) {
-        this.logImpl = logImpl;
+
+    public void setLogFormat(FormatStrategy logFormatStrategy) {
+        if(logFormatStrategy != null){
+            this.logFormatStrategy = logFormatStrategy;
+        }
     }
 
-    @Override
+
     public void v(String message, Object... args) {
-        log(QLog.VERBOSE, null, message, args);
+        log(QLogAdapter.VERBOSE, null, message, args);
     }
 
-    @Override
+
     public void d(String message, Object... args) {
-        log(QLog.DEBUG, null, message, args);
+        log(QLogAdapter.DEBUG, null, message, args);
     }
 
-    @Override
+
     public void i(String message, Object... args) {
-        log(QLog.INFO, null, message, args);
+        log(QLogAdapter.INFO, null, message, args);
     }
 
-    @Override
+
     public void w(String message, Object... args) {
-        log(QLog.WARN, null, message, args);
+        log(QLogAdapter.WARN, null, message, args);
     }
 
-    @Override
+
     public void e(String message, Object... args) {
-        log(QLog.ERROR, null, message, args);
+        log(QLogAdapter.ERROR, null, message, args);
     }
 
-    @Override
+
     public void e(Throwable throwable, String message, Object... args) {
-        log(QLog.ERROR, throwable, message, args);
+        log(QLogAdapter.ERROR, throwable, message, args);
     }
 
-    @Override
+
     public void json(String json) {
         if (Utils.isEmpty(json)) {
             d("Empty/Null json content");
@@ -114,7 +116,7 @@ public class Recoder {
         }
     }
 
-    @Override
+
     public void xml(String xml) {
         if (Utils.isEmpty(xml)) {
             d("Empty/Null xml content");

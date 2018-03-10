@@ -1,10 +1,12 @@
 package com.tencent.qcloud.download_tool.log;
 
+import com.tencent.qcloud.download_tool.util.Utils;
+
 /**
  * Created by bradyxiao on 2018/3/9.
  */
 
-public class LogFormatStrategy {
+public class FormatStrategy {
 
     /**
      * Android's max limit for a log entry is ~4076 bytes,
@@ -14,9 +16,10 @@ public class LogFormatStrategy {
     private static final int CHUNK_SIZE = 4000;
 
     /**
+     * 根据测试，可以得知函数栈的，需要偏移量offset
      * The minimum stack trace index, starts at this class after two native calls.
      */
-    private static final int MIN_STACK_OFFSET = 5;
+    private static final int MIN_STACK_OFFSET = 6;
 
     private final int showMethodCount;
     private final int showMethodOffset;
@@ -24,7 +27,7 @@ public class LogFormatStrategy {
     private final QLogAdapter logImpl;
     private final String tag;
 
-    private LogFormatStrategy(Builder builder){
+    private FormatStrategy(Builder builder){
         this.showMethodCount = builder.showMethodCount;
         this.showMethodOffset = builder.showMethodOffset;
         this.showThreadInfo = builder.showThreadInfo;
@@ -33,7 +36,14 @@ public class LogFormatStrategy {
     }
 
     public void log(int level, String tag, String message){
-
+        String realTag = this.tag;
+        if(tag != null && !Utils.isEqual(this.tag, tag)){
+            realTag = tag;
+        }
+        //打印 header for log
+        logHeaderContent(level, realTag, showMethodCount);
+        //打印 body for log
+        logBodyContent(level, realTag, message);
     }
 
 
@@ -47,11 +57,12 @@ public class LogFormatStrategy {
             logChunk(level, tag, threadInfo);
         }
 
-        //打印方法信息
+        //打印方法信息（默认，认为trace.length > stackoffset）
         int stackOffset = getStackOffset(trace) + showMethodOffset;
         if(showMethodCount + stackOffset > trace.length){
             showMethodCount = trace.length - stackOffset - 1;
         }
+
         for(int i = showMethodCount; i > 0; i--){
             int stackIndex = i + stackOffset;
             if (stackIndex >= trace.length) {
@@ -115,7 +126,7 @@ public class LogFormatStrategy {
 
     public static class Builder{
         int showMethodCount = 2;
-        int showMethodOffset = 0;
+        int showMethodOffset = 0; //继续显示更早的调用者
         boolean showThreadInfo = true;
         QLogAdapter logImpl = new LogcatImpl();
         String tag = "QLogger";
@@ -137,7 +148,7 @@ public class LogFormatStrategy {
             return this;
         }
 
-        public Builder setLogImpl(QLogAdapter logImpl){
+        public Builder setQLogAdapter(QLogAdapter logImpl){
             if(logImpl != null){
                 this.logImpl = logImpl;
             }
@@ -151,8 +162,8 @@ public class LogFormatStrategy {
             return this;
         }
 
-        public LogFormatStrategy build(){
-            return new LogFormatStrategy(this);
+        public FormatStrategy build(){
+            return new FormatStrategy(this);
         }
     }
 }

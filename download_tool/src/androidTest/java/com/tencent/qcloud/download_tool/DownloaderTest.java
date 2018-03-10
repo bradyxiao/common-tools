@@ -9,6 +9,7 @@ import com.tencent.qcloud.download_tool.exception.ClientException;
 import com.tencent.qcloud.download_tool.exception.ServerException;
 import com.tencent.qcloud.download_tool.listener.OnDownloadListener;
 import com.tencent.qcloud.download_tool.listener.OnProgressListener;
+import com.tencent.qcloud.download_tool.log.QLogger;
 import com.tencent.qcloud.download_tool.module.DownloadRequest;
 import com.tencent.qcloud.download_tool.module.DownloadResult;
 
@@ -30,11 +31,11 @@ public class DownloaderTest {
     @Test
     public void testDownload() throws Exception{
         Context appContext = InstrumentationRegistry.getContext();
-        String url = "https://androidtest-1253653367.cosgz.myqcloud.com/upload_service5.txt";
+        String url = "http://androidtest-1253653367.cosgz.myqcloud.com/upload_service5.txt";
         String localDir = appContext.getExternalCacheDir().getPath();
         String localFile = "download.txt";
         final DownloadRequest downloadRequest = new DownloadRequest(url, localDir, localFile);
-        downloadRequest.setRange(1024 * 10);
+        downloadRequest.setRange(1024 * 0);
         downloadRequest.setOnProgressListener(new OnProgressListener() {
             @Override
             public void onProgress(long receivedLength, long totalLength) {
@@ -67,7 +68,7 @@ public class DownloaderTest {
     @Test
     public void testAsyncDownload() throws Exception{
         Context appContext = InstrumentationRegistry.getContext();
-        String url = "https://androidtest-1253653367.cosgz.myqcloud.com/upload_service5.txt";
+        String url = "http://androidtest-1253653367.cosgz.myqcloud.com/upload_service5.txt";
         String localDir = appContext.getExternalCacheDir().getPath();
         String localFile = "download.txt";
         final DownloadRequest downloadRequest = new DownloadRequest(url, localDir, localFile);
@@ -86,7 +87,7 @@ public class DownloaderTest {
         downloader.download(downloadRequest, new OnDownloadListener() {
             @Override
             public void onSuccess(DownloadRequest downloadRequest, DownloadResult downloadResult) {
-                Log.d("DownloadTest", "Download Success");
+                QLogger.d("DownloadTest Download Success");
                 File file = null;
                 try {
                     file = new File(downloadRequest.getLocalSavePath());
