@@ -93,7 +93,7 @@ public class Recorder {
 
     public void json(String json) {
         if (Utils.isEmpty(json)) {
-            d("Empty/Null json content");
+            log(QLogAdapter.DEBUG, null, "Empty/Null json content");
             return;
         }
         try {
@@ -101,25 +101,25 @@ public class Recorder {
             if (json.startsWith("{")) {
                 JSONObject jsonObject = new JSONObject(json);
                 String message = jsonObject.toString(JSON_INDENT_SPACES);
-                d(message);
+                log(QLogAdapter.DEBUG, null, message);
                 return;
             }
             if (json.startsWith("[")) {
                 JSONArray jsonArray = new JSONArray(json);
                 String message = jsonArray.toString(JSON_INDENT_SPACES);
-                d(message);
+                log(QLogAdapter.DEBUG, null, message);
                 return;
             }
-            e("Invalid Json");
+            log(QLogAdapter.ERROR, null, "Invalid Json");
         } catch (JSONException e) {
-            e("Invalid Json");
+            log(QLogAdapter.ERROR, null, "Invalid Json");
         }
     }
 
 
     public void xml(String xml) {
         if (Utils.isEmpty(xml)) {
-            d("Empty/Null xml content");
+            log(QLogAdapter.DEBUG, null, "Empty/Null xml content");
             return;
         }
         try {
@@ -129,9 +129,9 @@ public class Recorder {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", XML_INDENT_SPACES);
             transformer.transform(xmlInput, xmlOutput);
-            d(xmlOutput.getWriter().toString().replaceFirst(">", ">\n"));
+            log(QLogAdapter.DEBUG, null, xmlOutput.getWriter().toString().replaceFirst(">", ">\n"));
         } catch (TransformerException e) {
-            e("Invalid xml");
+            log(QLogAdapter.ERROR, null, "Invalid xml");
         }
     }
 }

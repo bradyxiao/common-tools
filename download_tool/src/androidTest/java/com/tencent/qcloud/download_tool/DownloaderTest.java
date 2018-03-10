@@ -87,7 +87,7 @@ public class DownloaderTest {
         downloader.download(downloadRequest, new OnDownloadListener() {
             @Override
             public void onSuccess(DownloadRequest downloadRequest, DownloadResult downloadResult) {
-                QLogger.d("DownloadTest Download Success");
+                QLogger.xml("<H><a>DownloadTest Download Success</a><b>DownloadTest Download Success2</b></H>");
                 File file = null;
                 try {
                     file = new File(downloadRequest.getLocalSavePath());
