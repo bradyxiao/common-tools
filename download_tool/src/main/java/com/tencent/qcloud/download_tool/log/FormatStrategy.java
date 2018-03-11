@@ -21,6 +21,16 @@ public class FormatStrategy {
      */
     private static final int MIN_STACK_OFFSET = 6;
 
+    private static final char TOP_LEFT_CORNER = '┌';
+    private static final char BOTTOM_LEFT_CORNER = '└';
+    private static final char MIDDLE_CORNER = '├';
+    private static final char HORIZONTAL_LINE = '│';
+    private static final String DOUBLE_DIVIDER = "────────────────────────────────────────────────────────";
+    private static final String SINGLE_DIVIDER = "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄";
+    private static final String TOP_BORDER = TOP_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER;
+    private static final String BOTTOM_BORDER = BOTTOM_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER;
+    private static final String MIDDLE_BORDER = MIDDLE_CORNER + SINGLE_DIVIDER + SINGLE_DIVIDER;
+
     private final int showMethodCount;
     private final int showMethodOffset;
     private final boolean showThreadInfo;
@@ -40,10 +50,19 @@ public class FormatStrategy {
         if(tag != null && !Utils.isEqual(this.tag, tag)){
             realTag = tag;
         }
+
+        //顶部边框线
+        logChunk(level, tag, TOP_BORDER);
         //打印 header for log
         logHeaderContent(level, realTag, showMethodCount);
+        //打印header 和 body之间的分割线
+        if(showMethodCount > 0){
+            logChunk(level, tag, MIDDLE_BORDER);
+        }
         //打印 body for log
         logBodyContent(level, realTag, message);
+        //底部边框线
+        logChunk(level, tag, BOTTOM_BORDER);
     }
 
 
@@ -55,6 +74,7 @@ public class FormatStrategy {
         if(showThreadInfo){
             String threadInfo = " Thread [" + Thread.currentThread().getName() + "]";
             logChunk(level, tag, threadInfo);
+            logChunk(level, tag, MIDDLE_BORDER);
         }
 
         //打印方法信息（默认，认为trace.length > stackoffset）
@@ -69,7 +89,8 @@ public class FormatStrategy {
                 continue;
             }
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(getSimpleClassName(trace[stackIndex].getClassName()))
+            stringBuilder.append(HORIZONTAL_LINE + " " )
+                    .append(getSimpleClassName(trace[stackIndex].getClassName()))
                     .append(".")
                     .append(trace[stackIndex].getMethodName())
                     .append(" (")
@@ -88,7 +109,7 @@ public class FormatStrategy {
         if(len < CHUNK_SIZE){
             String[] lines = message.split(System.getProperty("line.separator"));
             for(String line : lines){
-                logChunk(level, tag, line);
+                logChunk(level, tag, HORIZONTAL_LINE + " " + line);
             }
             return;
         }
@@ -97,7 +118,7 @@ public class FormatStrategy {
             //create a new String with system's default charset (which is UTF-8 for Android)
             String[] lines = new String(bytes, i, count).split(System.getProperty("line.separator"));
             for(String line : lines){
-                logChunk(level, tag, line);
+                logChunk(level, tag, HORIZONTAL_LINE + " " + line);
             }
         }
     }
