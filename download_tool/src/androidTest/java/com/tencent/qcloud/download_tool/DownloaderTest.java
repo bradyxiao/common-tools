@@ -45,19 +45,21 @@ public class DownloaderTest {
                  + "%");
             }
         });
-        final Downloader downloader = new Downloader(new Config());
+        Config config = new Config();
+        config.isMultiThreadDownload = true;
+        final Downloader downloader = new Downloader(config);
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(400);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                downloader.cancel(downloadRequest);
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                downloader.cancel(downloadRequest);
+            }
+        }).start();
         DownloadResult downloadResult = downloader.download(downloadRequest);
 
         File file = new File(downloadRequest.getLocalSavePath());

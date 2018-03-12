@@ -21,6 +21,8 @@ import okhttp3.Response;
 
 public class SingleThreadDownloadTask extends DownloadTask{
 
+    private volatile  Call call;
+
     public SingleThreadDownloadTask(OkHttpClient okHttpClient) {
         super(okHttpClient);
     }
@@ -33,7 +35,7 @@ public class SingleThreadDownloadTask extends DownloadTask{
         try {
             listenerHandler.onRunning();
             Response response = call.execute();
-            DownloadResult downloadResult = handleResponse(downloadRequest, response, listenerHandler);
+            DownloadResult downloadResult = handleResponse(downloadRequest, response, call, listenerHandler);
             listenerHandler.onCompleted();
             return downloadResult;
         } catch (Exception e) {
@@ -64,8 +66,8 @@ public class SingleThreadDownloadTask extends DownloadTask{
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call innerCall, IOException e) {
-                    listenerHandler.onCompleted();
                     if(call.isCanceled()){
+                        listenerHandler.onCompleted();
                         listenerHandler.onFailed(downloadRequest, null, new ServerException("Canceled"));
                     }else {
                         boolean isRetry = RetryHandler.retryRequest(currentRetryNum + 1 ,maxRetryNums,e);
@@ -74,6 +76,7 @@ public class SingleThreadDownloadTask extends DownloadTask{
                             currentRetryNum = currentRetryNum + 1;
                             asyncDownload();
                         }else {
+                            listenerHandler.onCompleted();
                             listenerHandler.onFailed(downloadRequest, null, new ServerException(e));
                         }
                     }
@@ -82,7 +85,7 @@ public class SingleThreadDownloadTask extends DownloadTask{
                 @Override
                 public void onResponse(Call innerCall, Response response) throws IOException {
                     try {
-                        DownloadResult downloadResult = handleResponse(downloadRequest, response, listenerHandler);
+                        DownloadResult downloadResult = handleResponse(downloadRequest, response, call, listenerHandler);
                         listenerHandler.onCompleted();
                         listenerHandler.onSuccess(downloadRequest, downloadResult);
                     }catch (Exception e){
@@ -109,5 +112,14 @@ public class SingleThreadDownloadTask extends DownloadTask{
         } catch (ClientException e) {
             listenerHandler.onFailed(downloadRequest, e, null);
         }
+    }
+
+    @Override
+    public boolean cancel(){
+        if(call != null && !call.isCanceled()){
+            call.cancel();
+            return true;
+        }
+        return false;
     }
 }

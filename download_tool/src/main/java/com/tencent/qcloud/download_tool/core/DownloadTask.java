@@ -19,15 +19,10 @@ import java.io.RandomAccessFile;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.BufferedSink;
-import okio.BufferedSource;
+
 
 /**
  * Created by bradyxiao on 2018/3/8.
@@ -36,7 +31,6 @@ import okio.BufferedSource;
 public abstract class DownloadTask {
 
     protected OkHttpClient okHttpClient;
-    volatile protected Call call;
     protected DownloadRequest downloadRequest;
     protected ListenerHandler listenerHandler;
     protected int maxRetryNums = 3;
@@ -62,6 +56,7 @@ public abstract class DownloadTask {
 
     public abstract DownloadResult syncDownload() throws ClientException, ServerException;
     public abstract void asyncDownload();
+    public abstract boolean cancel();
 
     protected Request createRequest(DownloadRequest downloadRequest) throws ClientException {
         downloadRequest.checkParamters();
@@ -79,7 +74,7 @@ public abstract class DownloadTask {
     }
 
     protected DownloadResult handleResponse(DownloadRequest downloadRequest, Response response,
-                                            ListenerHandler listenerHandler) throws ServerException, ClientException {
+                                            Call call, ListenerHandler listenerHandler) throws ServerException, ClientException {
         if(response.code() != 200 && response.code() != 206){
             try {
                 String errorMsg = response.body().string();
@@ -115,19 +110,13 @@ public abstract class DownloadTask {
                 }else {
                     throw new ServerException(e);
                 }
+            }catch (Throwable e){
+                throw new ClientException(e);
             }finally {
                 Utils.close(randomAccessFile);
                 Utils.close(inputStream);
             }
         }
-    }
-
-    public boolean cancel(){
-        if(call != null && !call.isCanceled()){
-            call.cancel();
-            return true;
-        }
-        return false;
     }
 
     protected static class ListenerHandler implements OnDownloadListener, OnProgressListener, OnTaskStateListener{
