@@ -30,12 +30,10 @@ public abstract class QLogAdapter {
      */
     public static final int ERROR = 6;
 
-    protected String defaultTag = "QLogger";
-    protected int defaultLevel = DEBUG;
-
     public abstract void log(int level, String tag, String message);
 
-    protected void setLevel(int level){
+    protected int setLevel(int level){
+        int defaultLevel = DEBUG;
         switch (level){
             case VERBOSE:
             case INFO:
@@ -47,9 +45,12 @@ public abstract class QLogAdapter {
             default:
                     defaultLevel = DEBUG;
         }
+        return defaultLevel;
     }
 
-    protected void setTag(String tag){
+    protected String setTag(String tag){
+        String defaultTag = "QLogger";
         if(tag != null)defaultTag = tag;
+        return defaultTag;
     }
 }

@@ -49,8 +49,12 @@ public class Recorder {
         logFormatStrategy.log(level, tag, message);
     }
 
+    public void setTag(String tag){
+        if(tag != null) threadLocalTag.set(tag);
+    }
+
     private String getTag(){
-        return null;
+        return threadLocalTag.get();
     }
 
 

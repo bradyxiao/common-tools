@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -32,18 +31,18 @@ public class LogFileImpl extends QLogAdapter {
     private final LogFileWriteHandler logFileWriteHandler;
 
     public LogFileImpl(Context context, String flag){
-        String logDirName = context.getExternalCacheDir().getAbsolutePath();
+        String logDirName = context != null ? context.getExternalCacheDir().getAbsolutePath() : null;
         HandlerThread handlerThread = new HandlerThread("QLog_File_HandlerThread", Thread.MIN_PRIORITY);
         handlerThread.start();
         logFileWriteHandler = new LogFileWriteHandler(handlerThread.getLooper(), logDirName, flag);
-        logFileWriteHandler.sendEmptyMessageDelayed(logFileWriteHandler.MSG_FULL, 10 * 1000);
+        logFileWriteHandler.sendEmptyMessageDelayed(logFileWriteHandler.MSG_FULL, 1 * 1000);
     }
 
     @Override
     public void log(int level, String tag, String message) {
         super.setLevel(level);
         super.setTag(tag);
-        LogFileMessageStruct logFileMessageStruct = new LogFileMessageStruct(defaultLevel, defaultTag, message);
+        LogFileMessageStruct logFileMessageStruct = new LogFileMessageStruct(setLevel(level), setTag(tag), message);
         logFileWriteHandler.messageComeIn(logFileMessageStruct);
     }
 
@@ -59,9 +58,10 @@ public class LogFileImpl extends QLogAdapter {
         public final int MSG_IN = 2;
         private final SimpleDateFormat dateFormatForDir = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-        private List<LogFileMessageStruct> logFileMessageStructList = Collections.synchronizedList(new ArrayList<LogFileMessageStruct>());
+        private List<LogFileMessageStruct> logFileMessageStructList = new ArrayList<LogFileMessageStruct>();
         private volatile long bufferSize = 0;
         private final int maxBufferSize = 4 * 1024;
+        private Object syncObject = new Object();
 
         private final FileFilter fileFilter = new FileFilter() {
             @Override
@@ -100,9 +100,7 @@ public class LogFileImpl extends QLogAdapter {
 
         private void flush(){
             if(bufferSize <= 0) return;
-            writeLogtoFile();
-            logFileMessageStructList.clear();
-            bufferSize = 0;
+            writeLogToFile();
         }
 
         private void write(){
@@ -112,22 +110,28 @@ public class LogFileImpl extends QLogAdapter {
         }
 
         public void messageComeIn(LogFileMessageStruct logFileMessageStruct){
-            logFileMessageStructList.add(logFileMessageStruct);
-            bufferSize += logFileMessageStruct.getMessageStructLength();
+            synchronized (syncObject){
+                logFileMessageStructList.add(logFileMessageStruct);
+                bufferSize += logFileMessageStruct.getMessageStructLength();
+            }
             Message message = this.obtainMessage();
             message.what = MSG_IN;
             sendMessage(message);
 
         }
 
-        private void writeLogtoFile(){
+        private void writeLogToFile(){
             String dirName = logDir + File.separator + dateFormatForDir.format(new Date(System.currentTimeMillis()));
             File logFile = getLogFile(dirName);
             FileWriter fileWriter = null;
             try {
                 fileWriter = new FileWriter(logFile, true);
-                for(LogFileMessageStruct logFileMessageStruct : logFileMessageStructList){
-                    fileWriter.append(logFileMessageStruct.buildMessage());
+                synchronized (syncObject){
+                    for(LogFileMessageStruct logFileMessageStruct : logFileMessageStructList){ //非安全（同步）方法
+                        fileWriter.append(logFileMessageStruct.buildMessage());
+                    }
+                    logFileMessageStructList.clear();
+                    bufferSize = 0;
                 }
                 fileWriter.flush();
             } catch (IOException e) {
@@ -191,11 +195,17 @@ public class LogFileImpl extends QLogAdapter {
         private int level;
         private String tag;
         private String message;
+        private String threadName;
+        private long threadId;
+        private String time;
 
         public LogFileMessageStruct(int level, String tag, String message){
             this.level = level;
             this.tag = tag;
             this.message = message;
+            this.threadName = Thread.currentThread().getName();
+            this.threadId = Thread.currentThread().getId();
+            this.time = dateFormatForContent.format(new Date(System.currentTimeMillis()));
         }
 
         public String buildMessage(){
@@ -219,8 +229,8 @@ public class LogFileImpl extends QLogAdapter {
             }
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(levelMessage).append("/")
-                    .append(dateFormatForContent.format(new Date(System.currentTimeMillis())))
-                    .append("[").append(Thread.currentThread().getName()).append(" ").append(Thread.currentThread().getId())
+                    .append(time)
+                    .append("[").append(threadName).append(" ").append(threadId)
                     .append("]")
                     .append("[").append(tag).append("]")
                     .append(message)

@@ -146,11 +146,11 @@ public class FormatStrategy {
 
 
     public static class Builder{
-        int showMethodCount = 2;
-        int showMethodOffset = 0; //继续显示更早的调用者
-        boolean showThreadInfo = true;
-        QLogAdapter logImpl = new LogcatImpl();
-        String tag = "QLogger";
+        private int showMethodCount = 2;
+        private int showMethodOffset = 0; //继续显示更早的调用者
+        private boolean showThreadInfo = true;
+        private QLogAdapter logImpl = new LogcatImpl();
+        private String tag = "QLogger";
 
         public Builder(){}
 

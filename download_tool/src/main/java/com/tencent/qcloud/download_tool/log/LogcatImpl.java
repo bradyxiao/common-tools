@@ -12,9 +12,7 @@ public class LogcatImpl extends QLogAdapter {
     @SuppressLint("WrongConstant")
     @Override
     public void log(int level, String tag, String message) {
-        setLevel(level);
-        setTag(tag);
-        Log.println(defaultLevel, defaultTag, message);
+        Log.println(setLevel(level), setTag(tag), message);
     }
 
 

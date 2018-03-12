@@ -17,6 +17,10 @@ public final class QLogger {
         recorder.setLogFormat(logFormatStrategy);
     }
 
+    public static void setTag(String tag){
+        recorder.setTag(tag);
+    }
+
     public static void v(String message, Object... args){
         recorder.v(message, args);
     }
