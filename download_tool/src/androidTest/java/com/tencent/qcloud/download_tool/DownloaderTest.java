@@ -49,17 +49,17 @@ public class DownloaderTest {
         config.isMultiThreadDownload = true;
         final Downloader downloader = new Downloader(config);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                downloader.cancel(downloadRequest);
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(400);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                downloader.cancel(downloadRequest);
+//            }
+//        }).start();
         DownloadResult downloadResult = downloader.download(downloadRequest);
 
         File file = new File(downloadRequest.getLocalSavePath());
@@ -109,17 +109,17 @@ public class DownloaderTest {
             }
         });
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(10000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                downloader.cancel(downloadRequest);
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                downloader.cancel(downloadRequest);
+            }
+        }).start();
 
         while (!isOver){
             Thread.sleep(500);

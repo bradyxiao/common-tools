@@ -110,6 +110,34 @@ public class MultiThreadDownloadTask extends DownloadTask {
         }
     }
 
+    @Override
+    public void asyncDownload() {
+        Executors.newSingleThreadExecutor().submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    DownloadResult downloadResult = syncDownload();
+                    listenerHandler2.onSuccess(downloadResult);
+                } catch (ClientException e) {
+                    listenerHandler2.onFailed(e, null);
+                } catch (ServerException e) {
+                    listenerHandler2.onFailed(null, e);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public boolean cancel() {
+        if(isCanceled)return false;
+        synchronized (syncObject){
+            isCanceled = true;
+            error(0);
+        }
+        return true;
+    }
+
     private boolean isExit(){
       int size = runTaskList.size();
       boolean isExit = true;
@@ -148,23 +176,6 @@ public class MultiThreadDownloadTask extends DownloadTask {
             if(brokenDown) throw new BrokenException("broken exception");
         }
 
-    }
-
-
-
-    @Override
-    public void asyncDownload() {
-        listenerHandler2.onWaiting();
-    }
-
-    @Override
-    public boolean cancel() {
-        if(isCanceled)return false;
-        synchronized (syncObject){
-            isCanceled = true;
-            error(0);
-        }
-        return true;
     }
 
     private long getContentLength(DownloadRequest downloadRequest) throws ServerException, ClientException {
