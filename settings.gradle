@@ -1,2 +1,2 @@
-//include ':app', ':log_tool', ':crash_tool', ':leakcanary_tool', ':network_tool', ':gradle_task', ':service_component', ':threadpool_utils', ':player_component', ':PlayerApp', ':download_tool'
+include ':app', ':log_tool', ':crash_tool', ':leakcanary_tool', ':network_tool', ':gradle_task', ':service_component', ':threadpool_utils', ':player_component', ':PlayerApp', ':download_tool', ':algorithmlibs', ':javaRmi', ':live555', ':flashligth'
 include ':download_tool'

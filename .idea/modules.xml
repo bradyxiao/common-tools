@@ -2,9 +2,23 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PlayerApp/PlayerApp.iml" filepath="$PROJECT_DIR$/PlayerApp/PlayerApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/algorithmlibs/algorithmlibs.iml" filepath="$PROJECT_DIR$/algorithmlibs/algorithmlibs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://E:\TencentWork\train\commonLibs\common-tools.iml" filepath="E:\TencentWork\train\commonLibs\common-tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/commonLibs.iml" filepath="$PROJECT_DIR$/commonLibs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crash_tool/crash_tool.iml" filepath="$PROJECT_DIR$/crash_tool/crash_tool.iml" />
       <module fileurl="file://$PROJECT_DIR$/download_tool/download_tool.iml" filepath="$PROJECT_DIR$/download_tool/download_tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/flashligth/flashligth.iml" filepath="$PROJECT_DIR$/flashligth/flashligth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gradle_task/gradle_task.iml" filepath="$PROJECT_DIR$/gradle_task/gradle_task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javaRmi/javaRmi.iml" filepath="$PROJECT_DIR$/javaRmi/javaRmi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/leakcanary_tool/leakcanary_tool.iml" filepath="$PROJECT_DIR$/leakcanary_tool/leakcanary_tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/live555/live555.iml" filepath="$PROJECT_DIR$/live555/live555.iml" />
+      <module fileurl="file://$PROJECT_DIR$/log_tool/log_tool.iml" filepath="$PROJECT_DIR$/log_tool/log_tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/network_tool/network_tool.iml" filepath="$PROJECT_DIR$/network_tool/network_tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/player_component/player_component.iml" filepath="$PROJECT_DIR$/player_component/player_component.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service_component/service_component.iml" filepath="$PROJECT_DIR$/service_component/service_component.iml" />
+      <module fileurl="file://$PROJECT_DIR$/threadpool_utils/threadpool_utils.iml" filepath="$PROJECT_DIR$/threadpool_utils/threadpool_utils.iml" />
     </modules>
   </component>
 </project>

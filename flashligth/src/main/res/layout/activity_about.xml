@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/about_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/about_bg"
+    tools:context="com.heqingwei.iflashlight.IFLAboutActivity" >
+
+    <ImageView
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:contentDescription="@null"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:src="@drawable/light_on" />
+    
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/snow"
+            android:textSize="20sp"
+            android:text="@string/app_name"/>
+        
+        <TextView
+            android:id="@+id/version_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/snow"
+            android:textSize="20sp"
+            android:text=""/>
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_marginTop="70dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+	    <Button
+	        android:id="@+id/goto_rank_button"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/about_activity_button_selector"
+	        android:textColor="@color/snow"
+	        android:textSize="13sp"
+	        android:text="@string/goto_rank"/>
+	    <Button
+	        android:id="@+id/show_download_qrcode_button"
+	        android:layout_marginTop="1dp"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/snow"
+	        android:textSize="13sp"
+	        android:background="@drawable/about_activity_button_selector"
+	        android:text="@string/show_download_qrcode"/>
+	    <Button
+	        android:id="@+id/check_update_button"
+	        android:layout_marginTop="1dp"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/snow"
+	        android:textSize="13sp"
+	        android:background="@drawable/about_activity_button_selector"
+	        android:text="@string/check_update"/>
+    
+    </LinearLayout>
+   	<LinearLayout
+        android:gravity="bottom|center"
+        android:layout_marginTop="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+	    
+   	    <TextView 
+   	        android:layout_width="wrap_content"
+   	        android:layout_height="wrap_content"
+   	        android:textSize="12sp"
+   	        android:textStyle="italic"
+   	        android:textColor="@color/snow"
+   	        android:text="@string/copyright_info"/>
+	    
+    </LinearLayout>
+    
+</LinearLayout>

@@ -27,4 +27,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile project(path: ':service_component')
+    compile project(path: ':download_tool')
+    compile project(path: ':log_tool')
 }

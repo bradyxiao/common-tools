@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/draw_toolbar_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#30000000"
+    android:layout_gravity="bottom|center"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+        
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:id="@+id/draw_color_button"
+        android:contentDescription="@null"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_colorset"/>
+    </LinearLayout>
+    
+      	<LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        >
+        <ToggleButton
+            android:id="@+id/draw_flash_button"
+        android:contentDescription="@null"
+        android:textOn=""
+	    android:textOff=""
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/flash_selector"/>
+    </LinearLayout>
+    
+  	<LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:id="@+id/redo_button"
+        android:contentDescription="@null"
+        android:textOn=""
+	    android:textOff=""
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/redo"/>
+    </LinearLayout>
+    
+  	<LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        >
+        <Button
+        android:id="@+id/quit_button"
+        android:contentDescription="@null"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:textOn=""
+	    android:textOff=""
+        android:background="@drawable/quit"/>
+    </LinearLayout>
+  	
+</LinearLayout>

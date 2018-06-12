@@ -84,7 +84,9 @@ public class DownloaderTest {
                         + "%");
             }
         });
-        final Downloader downloader = new Downloader();
+        Config config = new Config();
+        config.isMultiThreadDownload = true;
+        final Downloader downloader = new Downloader(config);
 
         downloader.download(downloadRequest, new OnDownloadListener() {
             @Override
@@ -109,17 +111,17 @@ public class DownloaderTest {
             }
         });
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                downloader.cancel(downloadRequest);
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                downloader.cancel(downloadRequest);
+//            }
+//        }).start();
 
         while (!isOver){
             Thread.sleep(500);

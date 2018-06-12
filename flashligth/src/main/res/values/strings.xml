@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">简约手电</string>
+    <string name="the_words">黑夜给了我黑色的眼睛，我却用它寻找光明\n\t\t\t\t\t\t\t\t\t—— 顾城 《一代人》</string>
+    <string name="light_screen"><u>点亮手机屏幕</u></string>
+    <string name="stopping_sos_flash">SOS信号灯即将停止</string>
+    
+    <string name="cancel"><u>取消</u></string>
+    <string name="update"><u>立即更新</u></string>
+    
+    <string name="about">关于简约手电</string>
+    <string name="settings">设置</string>
+    
+    <string name="goto_rank"><u>去评分</u></string>
+    <string name="show_download_qrcode"><u>展示下载二维码</u></string>
+    <string name="check_update"><u>检查更新</u></string>
+    
+    <string name="auto_light_on">开启程序时自动打开手电</string>
+    <string name="auto_turn_off">在设定时间后自动关闭手电</string>
+    
+    <string name="getting_update_info">正在获取新版本信息</string>
+    <string name="allready_latest_version">恭喜您\n已经是最新版本了!</string>
+    <string name="get_udpate_info_error">抱歉\n获取新版本信息失败</string>
+    <string name="find_new_version">发现新版本</string>
+    <string name="download_tip">正在下载新版本(小于1M)\n完成后进入安装界面</string>
+    <string name="no_sdcard_tip">没有发现SD卡，无法更新</string>
+    
+    <string name="copyright_info">Copyright HeQingWei(Apache)，All rights reserved.</string>
+
+</resources>
